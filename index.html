@@ -36,10 +36,17 @@
   .cs-left-eyebrow::before { content: ''; display: inline-block; width: 18px; height: 2px; background: #8b1a1a; border-radius: 2px; flex-shrink: 0; }
   .cs-left-desc { font-size: 13.5px; color: #444; line-height: 1.75; }
 
-  /* Images in left panel */
-  .cs-left-images { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 24px; }
-  .cs-left-images img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; filter: grayscale(20%); transition: all 0.3s ease; cursor: pointer; }
-  .cs-left-images img:hover { filter: grayscale(0%); transform: scale(1.03); }
+  /* SLIDESHOW */
+  .slideshow { position: relative; width: 100%; height: 280px; border-radius: 14px; overflow: hidden; background: #e2ddd7; margin-top: 28px; flex-shrink: 0; }
+  .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out; }
+  .slide.active { opacity: 1; }
+  .slide-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.35); border: none; color: #fff; font-size: 18px; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 10; }
+  .slide-arrow:hover { background: rgba(139,26,26,0.7); }
+  .slide-arrow.prev { left: 12px; }
+  .slide-arrow.next { right: 12px; }
+  .slide-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
+  .slide-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); border: none; cursor: pointer; padding: 0; transition: all 0.2s; }
+  .slide-dot.active { background: #fff; width: 20px; border-radius: 4px; }
 
   /* RIGHT SIDE */
   .cs-right { background: #0b1623; padding: 44px 36px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
@@ -55,20 +62,19 @@
   .agenda-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-top: 2px; }
   .agenda-speaker { font-size: 11px; color: #5b9bd5; line-height: 1.5; margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); }
 
-  /* GOOGLE CALENDAR STYLE - ALL AGENDA */
+  /* GOOGLE CALENDAR GRID */
   .cal-container { background: #0b1623; padding: 36px; overflow-x: auto; }
   .cal-table { width: 100%; border-collapse: collapse; min-width: 600px; }
   .cal-table th { background: rgba(255,255,255,0.05); color: #5b9bd5; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 16px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.08); }
   .cal-table th:first-child { width: 100px; color: #3d7ab5; }
   .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); white-space: nowrap; line-height: 1.4; }
   .cal-time-end { font-size: 10px; color: rgba(255,94,98,0.45); display: block; margin-top: 2px; }
-  .cal-cell { padding: 10px 12px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.04); }
+  .cal-cell { padding: 6px 8px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.04); }
   .cal-cell-inner { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 10px 12px; border-left: 3px solid #8b1a1a; transition: background 0.2s; cursor: default; }
   .cal-cell-inner:hover { background: rgba(139,26,26,0.2); }
   .cal-cell-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5b9bd5; margin-bottom: 4px; }
   .cal-cell-title { font-size: 12px; font-weight: 600; color: #fff; line-height: 1.4; }
   .cal-cell.empty { background: transparent; }
-  .cal-row:hover .cal-time-cell { color: #ff7e81; }
 
   .msg { padding: 40px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; }
   .msg-light { padding: 40px; text-align: center; color: #bbb; font-size: 13px; }
@@ -78,7 +84,6 @@
     .cs-panel.active { grid-template-columns: 1fr; }
     .header-title { font-size: 26px; }
     .tabs-wrapper { border-radius: 16px; }
-    .cs-left-images { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -96,7 +101,7 @@
   <button class="cs-tab"         onclick="switchTab('networking')">Networking</button>
 </div>
 
-<!-- All Agenda - Google Calendar Style -->
+<!-- All Agenda -->
 <div class="cs-panel-all active" id="panel-all">
   <div class="cal-container">
     <div id="cal-grid"><div class="msg">Loading...</div></div>
@@ -144,8 +149,9 @@
   var LEFT_SHEET  = 'Left Panel';
   var CYBER_SHEET = 'CYBER Agenda';
   var leftData = [], cyberData = [], loaded = false;
+  var slideshowTimers = {};
 
-  // Placeholder images — replace URLs with your own later
+  // Placeholder images — replace with your own URLs later
   var IMAGES = {
     conference: [
       'https://iili.io/BQzMOPf.jpg',
@@ -176,8 +182,62 @@
       document.getElementById('panel-all').classList.add('active');
     } else {
       document.getElementById('panel-' + tab).classList.add('active');
+      startSlideshow(tab);
     }
     sendHeight();
+  }
+
+  // Slideshow logic
+  function startSlideshow(track) {
+    if (slideshowTimers[track]) clearInterval(slideshowTimers[track]);
+    slideshowTimers[track] = setInterval(function() {
+      advanceSlide(track, 1);
+    }, 3500);
+  }
+
+  function advanceSlide(track, dir) {
+    var ss = document.getElementById('slideshow-' + track);
+    if (!ss) return;
+    var slides = ss.querySelectorAll('.slide');
+    var dots   = ss.querySelectorAll('.slide-dot');
+    var cur    = 0;
+    slides.forEach(function(s, i) { if (s.classList.contains('active')) cur = i; });
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    var next = (cur + dir + slides.length) % slides.length;
+    slides[next].classList.add('active');
+    dots[next].classList.add('active');
+  }
+
+  function goToSlide(track, idx) {
+    var ss = document.getElementById('slideshow-' + track);
+    if (!ss) return;
+    var slides = ss.querySelectorAll('.slide');
+    var dots   = ss.querySelectorAll('.slide-dot');
+    slides.forEach(function(s) { s.classList.remove('active'); });
+    dots.forEach(function(d)   { d.classList.remove('active'); });
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+    // Reset timer
+    if (slideshowTimers[track]) clearInterval(slideshowTimers[track]);
+    startSlideshow(track);
+  }
+
+  function buildSlideshow(track) {
+    var imgs = IMAGES[track] || [];
+    if (!imgs.length) return '';
+    var slidesHtml = imgs.map(function(src, i) {
+      return '<img class="slide' + (i === 0 ? ' active' : '') + '" src="' + src + '" alt="" />';
+    }).join('');
+    var dotsHtml = imgs.map(function(_, i) {
+      return '<button class="slide-dot' + (i === 0 ? ' active' : '') + '" onclick="goToSlide(\'' + track + '\',' + i + ')"></button>';
+    }).join('');
+    return '<div class="slideshow" id="slideshow-' + track + '">'
+         + slidesHtml
+         + '<button class="slide-arrow prev" onclick="advanceSlide(\'' + track + '\',-1)">&#8592;</button>'
+         + '<button class="slide-arrow next" onclick="advanceSlide(\'' + track + '\',1)">&#8594;</button>'
+         + '<div class="slide-dots">' + dotsHtml + '</div>'
+         + '</div>';
   }
 
   function trackMatch(rowTrack, target) {
@@ -198,19 +258,11 @@
       if (!trackMatch(rowTrack, track)) return;
       if (!eye && !desc) return;
       html += '<div class="cs-left-item">'
-            + (eye  ? '<div class="cs-left-eyebrow">' + eye + '</div>' : '')
+            + (eye  ? '<div class="cs-left-eyebrow">' + eye  + '</div>' : '')
             + (desc ? '<div class="cs-left-desc">' + desc.replace(/\n/g,'<br>') + '</div>' : '')
             + '</div>';
     });
-    // Add images
-    var imgs = IMAGES[track] || [];
-    if (imgs.length) {
-      html += '<div class="cs-left-images">';
-      imgs.forEach(function(src) {
-        html += '<img src="' + src + '" alt="' + track + ' image" />';
-      });
-      html += '</div>';
-    }
+    html += buildSlideshow(track);
     return html || '<div class="msg-light">No content found.</div>';
   }
 
@@ -247,77 +299,58 @@
     return html || '<div class="msg">No sessions found.</div>';
   }
 
-  // Google Calendar grid for All Agenda
   function buildCalendarGrid() {
     var tracks = ['Conference', 'Workshop', 'Networking'];
-
-    // Group rows by time slot
-    var timeSlots = [];
-    var timeMap   = {};
+    var timeSlots = [], timeMap = {};
     cyberData.forEach(function(row) {
       var keys  = Object.keys(row);
       var timeS = (row[keys[0]] || '').trim();
       var timeE = (row[keys[1]] || '').trim();
       var trk   = (row[keys[2]] || '').trim();
-      var eye   = (row[keys[4]] || '').trim(); // Col E = eyebrow in calendar
-      var title = (row[keys[5]] || '').trim(); // Col F = description in calendar
-
+      var eye   = (row[keys[4]] || '').trim();
+      var title = (row[keys[5]] || '').trim();
       if (!timeS) return;
       var key = timeS + '||' + timeE;
-      if (!timeMap[key]) {
-        timeMap[key] = { timeS: timeS, timeE: timeE, cells: {} };
-        timeSlots.push(key);
-      }
-      // Normalize track
+      if (!timeMap[key]) { timeMap[key] = { timeS: timeS, timeE: timeE, cells: {} }; timeSlots.push(key); }
       var tNorm = trk.charAt(0).toUpperCase() + trk.slice(1).toLowerCase();
       if (!timeMap[key].cells[tNorm]) timeMap[key].cells[tNorm] = [];
       if (eye || title) timeMap[key].cells[tNorm].push({ eye: eye, title: title });
     });
 
-    var html = '<table class="cal-table">';
-    // Header
-    html += '<thead><tr><th>Time</th>';
+    var html = '<table class="cal-table"><thead><tr><th>Time</th>';
     tracks.forEach(function(t) { html += '<th>' + t + '</th>'; });
     html += '</tr></thead><tbody>';
-
-    // Rows
     timeSlots.forEach(function(key) {
       var slot = timeMap[key];
-      html += '<tr class="cal-row">';
-      html += '<td class="cal-time-cell">' + slot.timeS;
+      html += '<tr class="cal-row"><td class="cal-time-cell">' + slot.timeS;
       if (slot.timeE) html += '<span class="cal-time-end">→ ' + slot.timeE + '</span>';
       html += '</td>';
       tracks.forEach(function(t) {
         var cells = slot.cells[t] || [];
-        if (cells.length === 0) {
-          html += '<td class="cal-cell empty"></td>';
-        } else {
-          html += '<td class="cal-cell">';
-          cells.forEach(function(c) {
-            html += '<div class="cal-cell-inner">';
-            if (c.eye)   html += '<div class="cal-cell-eyebrow">' + c.eye   + '</div>';
-            if (c.title) html += '<div class="cal-cell-title">'   + c.title + '</div>';
-            html += '</div>';
-          });
-          html += '</td>';
-        }
+        if (!cells.length) { html += '<td class="cal-cell empty"></td>'; return; }
+        html += '<td class="cal-cell">';
+        cells.forEach(function(c) {
+          html += '<div class="cal-cell-inner">';
+          if (c.eye)   html += '<div class="cal-cell-eyebrow">' + c.eye   + '</div>';
+          if (c.title) html += '<div class="cal-cell-title">'   + c.title + '</div>';
+          html += '</div>';
+        });
+        html += '</td>';
       });
       html += '</tr>';
     });
-
     html += '</tbody></table>';
     return html;
   }
 
   function renderAll() {
-    // Split panels
     ['conference','workshop','networking'].forEach(function(track) {
       var leftEl = document.getElementById('left-' + track);
       leftEl.innerHTML = '<span class="cs-left-heading">Session Overview</span>' + buildLeftHTML(track);
       document.getElementById('right-' + track).innerHTML = buildRightHTML(track);
     });
-    // Calendar grid
     document.getElementById('cal-grid').innerHTML = buildCalendarGrid();
+    // Start slideshow for conference (default visible tab is All, so start on switch)
     sendHeight();
   }
 
