@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0ede8;
+    min-height: 100vh;
+    padding: 48px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .header-left { display: flex; flex-direction: column; gap: 6px; }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8b1a1a;
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.1;
+  }
+
+  /* TABS */
+  .tabs-wrapper {
+    display: flex;
+    gap: 6px;
+    background: #e2ddd7;
+    border-radius: 50px;
+    padding: 5px;
+    width: fit-content;
+  }
+  .cs-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 9px 22px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    background: transparent;
+    color: #666;
+    white-space: nowrap;
+  }
+  .cs-tab:hover { color: #111; background: rgba(255,255,255,0.5); }
+  .cs-tab.active { background: #fff; color: #8b1a1a; box-shadow: 0 2px 12px rgba(0,0,0,0.10); }
+
+  /* PANELS */
+  .cs-panel { display: none; }
+  .cs-panel.active {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+    min-height: 500px;
+  }
+
+  .cs-panel-all { display: none; }
+  .cs-panel-all.active {
+    display: block;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+  }
+
+  /* LEFT SIDE */
+  .cs-left {
+    background: #fff;
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+  }
+  .cs-left-heading {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8b1a1a;
+    margin-bottom: 28px;
+    display: block;
+  }
+  .cs-left-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #f0ede8;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: padding-left 0.2s ease;
+    cursor: default;
+  }
+  .cs-left-item:last-child { border-bottom: none; }
+  .cs-left-item:hover { padding-left: 8px; }
+  .cs-left-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8b1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cs-left-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 2px;
+    background: #8b1a1a;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .cs-left-desc {
+    font-size: 13.5px;
+    color: #444;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* RIGHT SIDE */
+  .cs-right {
+    background: #0b1623;
+    padding: 44px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+  }
+  .cs-right-heading {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3d7ab5;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .agenda-row {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+  .agenda-row:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(139,26,26,0.4);
+    transform: translateX(3px);
+  }
+  .agenda-time {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 3px;
+  }
+  .agenda-time-start { font-weight: 700; color: #ff5e62; font-size: 13px; letter-spacing: 0.3px; }
+  .agenda-time-end { font-size: 11px; color: rgba(255,94,98,0.5); letter-spacing: 0.3px; }
+  .agenda-body { display: flex; flex-direction: column; gap: 4px; }
+  .agenda-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #5b9bd5;
+  }
+  .agenda-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.45; }
+  .agenda-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-top: 2px; }
+  .agenda-speaker {
+    font-size: 11px;
+    color: #5b9bd5;
+    line-height: 1.5;
+    margin-top: 4px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ALL AGENDA */
+  .all-container {
+    background: #0b1623;
+    padding: 44px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-content: start;
+  }
+  .all-heading {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #3d7ab5;
+    margin-bottom: 8px;
+  }
+
+  .msg { padding: 40px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; grid-column: 1/-1; }
+  .msg-light { padding: 40px; text-align: center; color: #bbb; font-size: 13px; }
+
+  @media (max-width: 768px) {
+    body { padding: 24px 16px; }
+    .cs-panel.active { grid-template-columns: 1fr; }
+    .all-container { grid-template-columns: 1fr; }
+    .header-title { font-size: 26px; }
+    .tabs-wrapper { flex-wrap: wrap; border-radius: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <span class="header-eyebrow">Conference Programme</span>
+    <h1 class="header-title">Agenda Overview</h1>
+  </div>
+</div>
+
+<div class="tabs-wrapper">
+  <button class="cs-tab active"  onclick="switchTab('networking')">Networking</button>
+  <button class="cs-tab"         onclick="switchTab('conference')">Main Conference</button>
+  <button class="cs-tab"         onclick="switchTab('workshop')">Workshop</button>
+  <button class="cs-tab"         onclick="switchTab('all')">All Agenda</button>
+</div>
+
+<div class="cs-panel active" id="panel-networking">
+  <div class="cs-left" id="left-networking">
+    <span class="cs-left-heading">Session Overview</span>
+    <div class="msg-light">Loading...</div>
+  </div>
+  <div class="cs-right">
+    <span class="cs-right-heading">Schedule</span>
+    <div id="right-networking"><div class="msg">Loading...</div></div>
+  </div>
+</div>
+
+<div class="cs-panel" id="panel-conference">
+  <div class="cs-left" id="left-conference">
+    <span class="cs-left-heading">Session Overview</span>
+    <div class="msg-light">Loading...</div>
+  </div>
+  <div class="cs-right">
+    <span class="cs-right-heading">Schedule</span>
+    <div id="right-conference"><div class="msg">Loading...</div></div>
+  </div>
+</div>
+
+<div class="cs-panel" id="panel-workshop">
+  <div class="cs-left" id="left-workshop">
+    <span class="cs-left-heading">Session Overview</span>
+    <div class="msg-light">Loading...</div>
+  </div>
+  <div class="cs-right">
+    <span class="cs-right-heading">Schedule</span>
+    <div id="right-workshop"><div class="msg">Loading...</div></div>
+  </div>
+</div>
+
+<div class="cs-panel-all" id="panel-all">
+  <div class="all-container">
+    <span class="all-heading">Full Programme</span>
+    <div id="right-all"><div class="msg">Loading...</div></div>
+  </div>
+</div>
+
+<script>
+  var BASE_URL   = 'https://sheetdb.io/api/v1/aii6pr8cqy9d1';
+  var LEFT_SHEET = 'Left Panel';
+  var CYBER_SHEET = 'CYBER Agenda';
+  var leftData = [], cyberData = [], loaded = false;
+
+  function switchTab(tab) {
+    var tabs = ['networking','conference','workshop','all'];
+    document.querySelectorAll('.cs-tab').forEach(function(t, i) {
+      t.classList.toggle('active', tabs[i] === tab);
+    });
+    document.querySelectorAll('.cs-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.cs-panel-all').forEach(function(p) { p.classList.remove('active'); });
+    if (tab === 'all') {
+      document.getElementById('panel-all').classList.add('active');
+    } else {
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
+    sendHeight();
+  }
+
+  function trackMatch(rowTrack, target) {
+    var t = (rowTrack || '').toLowerCase().trim();
+    if (target === 'networking') return t === 'networking';
+    if (target === 'conference') return t === 'conference';
+    if (target === 'workshop')   return t === 'workshop';
+    return true;
+  }
+
+  function buildLeftHTML(track) {
+    var html = '';
+    leftData.forEach(function(row) {
+      var keys = Object.keys(row);
+      var rowTrack = (row[keys[0]] || '').trim();
+      var eye      = (row[keys[1]] || '').trim();
+      var desc     = (row[keys[2]] || '').trim();
+      if (!trackMatch(rowTrack, track)) return;
+      if (!eye && !desc) return;
+      html += '<div class="cs-left-item">'
+            + (eye  ? '<div class="cs-left-eyebrow">'  + eye  + '</div>' : '')
+            + (desc ? '<div class="cs-left-desc">' + desc.replace(/\n/g,'<br>') + '</div>' : '')
+            + '</div>';
+    });
+    return html || '<div class="msg-light">No content found.</div>';
+  }
+
+  function buildAgendaRow(row) {
+    var keys   = Object.keys(row);
+    var timeS  = (row[keys[0]] || '').trim();
+    var timeE  = (row[keys[1]] || '').trim();
+    var eye    = (row[keys[3]] || '').trim();
+    var title  = (row[keys[4]] || '').trim();
+    var desc   = (row[keys[5]] || '').trim();
+    var spk    = (row[keys[6]] || '').trim();
+    if (!timeS && !title) return '';
+    return '<div class="agenda-row">'
+         + '<div class="agenda-time">'
+         + '<span class="agenda-time-start">' + timeS + '</span>'
+         + (timeE ? '<span class="agenda-time-end">' + timeE + '</span>' : '')
+         + '</div>'
+         + '<div class="agenda-body">'
+         + (eye   ? '<div class="agenda-eyebrow">' + eye   + '</div>' : '')
+         + (title ? '<div class="agenda-title">'   + title + '</div>' : '')
+         + (desc  ? '<div class="agenda-desc">'    + desc.replace(/\n/g,'<br>')  + '</div>' : '')
+         + (spk   ? '<div class="agenda-speaker">' + spk.replace(/\n/g,'<br>')   + '</div>' : '')
+         + '</div>'
+         + '</div>';
+  }
+
+  function buildRightHTML(track) {
+    var html = '';
+    cyberData.forEach(function(row) {
+      var keys   = Object.keys(row);
+      var rowTrk = (row[keys[2]] || '').trim();
+      if (track !== 'all' && !trackMatch(rowTrk, track)) return;
+      html += buildAgendaRow(row);
+    });
+    return html || '<div class="msg">No sessions found.</div>';
+  }
+
+  function buildAllHTML() {
+    var html = '';
+    cyberData.forEach(function(row) { html += buildAgendaRow(row); });
+    return html || '<div class="msg">No sessions found.</div>';
+  }
+
+  function renderAll() {
+    ['networking','conference','workshop'].forEach(function(track) {
+      var leftEl = document.getElementById('left-' + track);
+      leftEl.innerHTML = '<span class="cs-left-heading">Session Overview</span>' + buildLeftHTML(track);
+      document.getElementById('right-' + track).innerHTML = buildRightHTML(track);
+    });
+    document.getElementById('right-all').innerHTML = buildAllHTML();
+    sendHeight();
+  }
+
+  function sendHeight() {
+    setTimeout(function() {
+      window.parent.postMessage({ iframeHeight: document.body.scrollHeight }, '*');
+    }, 150);
+  }
+
+  Promise.all([
+    fetch(BASE_URL + '?sheet=' + encodeURIComponent(LEFT_SHEET)).then(function(r){ return r.json(); }),
+    fetch(BASE_URL + '?sheet=' + encodeURIComponent(CYBER_SHEET)).then(function(r){ return r.json(); })
+  ]).then(function(results) {
+    leftData  = results[0] || [];
+    cyberData = results[1] || [];
+    loaded = true;
+    renderAll();
+  }).catch(function(err) {
+    console.error(err);
+    document.getElementById('right-networking').innerHTML = '<div class="msg" style="color:#ff5e62;">Failed to load. Please refresh.</div>';
+  });
+</script>
+</body>
+</html>
