@@ -6,261 +6,104 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: #f0ede8; min-height: 100vh; padding: 48px 32px; display: flex; flex-direction: column; gap: 32px; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: #f0ede8;
-    min-height: 100vh;
-    padding: 48px 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  /* HEADER */
-  .header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  .header-left { display: flex; flex-direction: column; gap: 6px; }
-  .header-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #8b1a1a;
-  }
-  .header-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: #111;
-    line-height: 1.1;
-  }
+  .header { display: flex; flex-direction: column; gap: 6px; }
+  .header-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #8b1a1a; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: #111; line-height: 1.1; }
 
   /* TABS */
-  .tabs-wrapper {
-    display: flex;
-    gap: 6px;
-    background: #e2ddd7;
-    border-radius: 50px;
-    padding: 5px;
-    width: fit-content;
-  }
-  .cs-tab {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 50px;
-    padding: 9px 22px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    background: transparent;
-    color: #666;
-    white-space: nowrap;
-  }
+  .tabs-wrapper { display: flex; gap: 6px; background: #e2ddd7; border-radius: 50px; padding: 5px; width: fit-content; flex-wrap: wrap; }
+  .cs-tab { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; border-radius: 50px; padding: 9px 22px; border: none; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #666; white-space: nowrap; }
   .cs-tab:hover { color: #111; background: rgba(255,255,255,0.5); }
   .cs-tab.active { background: #fff; color: #8b1a1a; box-shadow: 0 2px 12px rgba(0,0,0,0.10); }
 
-  /* PANELS */
+  /* SPLIT PANELS */
   .cs-panel { display: none; }
-  .cs-panel.active {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 8px 48px rgba(0,0,0,0.12);
-    min-height: 500px;
-  }
+  .cs-panel.active { display: grid; grid-template-columns: 1fr 1.4fr; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12); min-height: 500px; }
 
+  /* ALL AGENDA PANEL */
   .cs-panel-all { display: none; }
-  .cs-panel-all.active {
-    display: block;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 8px 48px rgba(0,0,0,0.12);
-  }
+  .cs-panel-all.active { display: block; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12); }
 
   /* LEFT SIDE */
-  .cs-left {
-    background: #fff;
-    padding: 44px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    overflow-y: auto;
-  }
-  .cs-left-heading {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #8b1a1a;
-    margin-bottom: 28px;
-    display: block;
-  }
-  .cs-left-item {
-    padding: 20px 0;
-    border-bottom: 1px solid #f0ede8;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    transition: padding-left 0.2s ease;
-    cursor: default;
-  }
+  .cs-left { background: #fff; padding: 44px 40px; display: flex; flex-direction: column; gap: 0; overflow-y: auto; }
+  .cs-left-heading { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #8b1a1a; margin-bottom: 28px; display: block; }
+  .cs-left-item { padding: 20px 0; border-bottom: 1px solid #f0ede8; display: flex; flex-direction: column; gap: 8px; transition: padding-left 0.2s ease; cursor: default; }
   .cs-left-item:last-child { border-bottom: none; }
   .cs-left-item:hover { padding-left: 8px; }
-  .cs-left-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #8b1a1a;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .cs-left-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 18px;
-    height: 2px;
-    background: #8b1a1a;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-  .cs-left-desc {
-    font-size: 13.5px;
-    color: #444;
-    line-height: 1.75;
-    font-weight: 400;
-  }
+  .cs-left-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #8b1a1a; display: flex; align-items: center; gap: 8px; }
+  .cs-left-eyebrow::before { content: ''; display: inline-block; width: 18px; height: 2px; background: #8b1a1a; border-radius: 2px; flex-shrink: 0; }
+  .cs-left-desc { font-size: 13.5px; color: #444; line-height: 1.75; }
+
+  /* Images in left panel */
+  .cs-left-images { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 24px; }
+  .cs-left-images img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; filter: grayscale(20%); transition: all 0.3s ease; cursor: pointer; }
+  .cs-left-images img:hover { filter: grayscale(0%); transform: scale(1.03); }
 
   /* RIGHT SIDE */
-  .cs-right {
-    background: #0b1623;
-    padding: 44px 36px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    overflow-y: auto;
-  }
-  .cs-right-heading {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #3d7ab5;
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .agenda-row {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 16px 20px;
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 16px;
-    align-items: start;
-    transition: all 0.2s ease;
-    cursor: default;
-  }
-  .agenda-row:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(139,26,26,0.4);
-    transform: translateX(3px);
-  }
-  .agenda-time {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding-top: 3px;
-  }
-  .agenda-time-start { font-weight: 700; color: #ff5e62; font-size: 13px; letter-spacing: 0.3px; }
-  .agenda-time-end { font-size: 11px; color: rgba(255,94,98,0.5); letter-spacing: 0.3px; }
+  .cs-right { background: #0b1623; padding: 44px 36px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
+  .cs-right-heading { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #3d7ab5; margin-bottom: 16px; display: block; }
+  .agenda-row { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px 20px; display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: start; transition: all 0.2s ease; cursor: default; }
+  .agenda-row:hover { background: rgba(255,255,255,0.08); border-color: rgba(139,26,26,0.4); transform: translateX(3px); }
+  .agenda-time { display: flex; flex-direction: column; gap: 2px; padding-top: 3px; }
+  .agenda-time-start { font-weight: 700; color: #ff5e62; font-size: 13px; }
+  .agenda-time-end { font-size: 11px; color: rgba(255,94,98,0.5); }
   .agenda-body { display: flex; flex-direction: column; gap: 4px; }
-  .agenda-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #5b9bd5;
-  }
+  .agenda-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #5b9bd5; }
   .agenda-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.45; }
   .agenda-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-top: 2px; }
-  .agenda-speaker {
-    font-size: 11px;
-    color: #5b9bd5;
-    line-height: 1.5;
-    margin-top: 4px;
-    padding-top: 6px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
+  .agenda-speaker { font-size: 11px; color: #5b9bd5; line-height: 1.5; margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); }
 
-  /* ALL AGENDA */
-  .all-container {
-    background: #0b1623;
-    padding: 44px 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    align-content: start;
-  }
-  .all-heading {
-    grid-column: 1 / -1;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #3d7ab5;
-    margin-bottom: 8px;
-  }
+  /* GOOGLE CALENDAR STYLE - ALL AGENDA */
+  .cal-container { background: #0b1623; padding: 36px; overflow-x: auto; }
+  .cal-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  .cal-table th { background: rgba(255,255,255,0.05); color: #5b9bd5; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 16px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.08); }
+  .cal-table th:first-child { width: 100px; color: #3d7ab5; }
+  .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); white-space: nowrap; line-height: 1.4; }
+  .cal-time-end { font-size: 10px; color: rgba(255,94,98,0.45); display: block; margin-top: 2px; }
+  .cal-cell { padding: 10px 12px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.04); }
+  .cal-cell-inner { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 10px 12px; border-left: 3px solid #8b1a1a; transition: background 0.2s; cursor: default; }
+  .cal-cell-inner:hover { background: rgba(139,26,26,0.2); }
+  .cal-cell-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5b9bd5; margin-bottom: 4px; }
+  .cal-cell-title { font-size: 12px; font-weight: 600; color: #fff; line-height: 1.4; }
+  .cal-cell.empty { background: transparent; }
+  .cal-row:hover .cal-time-cell { color: #ff7e81; }
 
-  .msg { padding: 40px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; grid-column: 1/-1; }
+  .msg { padding: 40px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; }
   .msg-light { padding: 40px; text-align: center; color: #bbb; font-size: 13px; }
 
   @media (max-width: 768px) {
     body { padding: 24px 16px; }
     .cs-panel.active { grid-template-columns: 1fr; }
-    .all-container { grid-template-columns: 1fr; }
     .header-title { font-size: 26px; }
-    .tabs-wrapper { flex-wrap: wrap; border-radius: 16px; }
+    .tabs-wrapper { border-radius: 16px; }
+    .cs-left-images { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-left">
-    <span class="header-eyebrow">Conference Programme</span>
-    <h1 class="header-title">Agenda Overview</h1>
-  </div>
+  <span class="header-eyebrow">Conference Programme</span>
+  <h1 class="header-title">Cyber Agenda Overview</h1>
 </div>
 
 <div class="tabs-wrapper">
-  <button class="cs-tab active"  onclick="switchTab('networking')">Networking</button>
+  <button class="cs-tab active"  onclick="switchTab('all')">All Agenda</button>
   <button class="cs-tab"         onclick="switchTab('conference')">Main Conference</button>
   <button class="cs-tab"         onclick="switchTab('workshop')">Workshop</button>
-  <button class="cs-tab"         onclick="switchTab('all')">All Agenda</button>
+  <button class="cs-tab"         onclick="switchTab('networking')">Networking</button>
 </div>
 
-<div class="cs-panel active" id="panel-networking">
-  <div class="cs-left" id="left-networking">
-    <span class="cs-left-heading">Session Overview</span>
-    <div class="msg-light">Loading...</div>
-  </div>
-  <div class="cs-right">
-    <span class="cs-right-heading">Schedule</span>
-    <div id="right-networking"><div class="msg">Loading...</div></div>
+<!-- All Agenda - Google Calendar Style -->
+<div class="cs-panel-all active" id="panel-all">
+  <div class="cal-container">
+    <div id="cal-grid"><div class="msg">Loading...</div></div>
   </div>
 </div>
 
+<!-- Main Conference -->
 <div class="cs-panel" id="panel-conference">
   <div class="cs-left" id="left-conference">
     <span class="cs-left-heading">Session Overview</span>
@@ -272,6 +115,7 @@
   </div>
 </div>
 
+<!-- Workshop -->
 <div class="cs-panel" id="panel-workshop">
   <div class="cs-left" id="left-workshop">
     <span class="cs-left-heading">Session Overview</span>
@@ -283,23 +127,48 @@
   </div>
 </div>
 
-<div class="cs-panel-all" id="panel-all">
-  <div class="all-container">
-    <span class="all-heading">Full Programme</span>
-    <div id="right-all"><div class="msg">Loading...</div></div>
+<!-- Networking -->
+<div class="cs-panel" id="panel-networking">
+  <div class="cs-left" id="left-networking">
+    <span class="cs-left-heading">Session Overview</span>
+    <div class="msg-light">Loading...</div>
+  </div>
+  <div class="cs-right">
+    <span class="cs-right-heading">Schedule</span>
+    <div id="right-networking"><div class="msg">Loading...</div></div>
   </div>
 </div>
 
 <script>
-  var BASE_URL   = 'https://sheetdb.io/api/v1/aii6pr8cqy9d1';
-  var LEFT_SHEET = 'Left Panel';
+  var BASE_URL    = 'https://sheetdb.io/api/v1/aii6pr8cqy9d1';
+  var LEFT_SHEET  = 'Left Panel';
   var CYBER_SHEET = 'CYBER Agenda';
   var leftData = [], cyberData = [], loaded = false;
 
+  // Placeholder images — replace URLs with your own later
+  var IMAGES = {
+    conference: [
+      'https://iili.io/BQzMOPf.jpg',
+      'https://iili.io/BQzMU9S.md.jpg',
+      'https://iili.io/BQzM4te.jpg'
+    ],
+    workshop: [
+      'https://iili.io/BQzMkF4.jpg',
+      'https://iili.io/BQzMvcl.jpg',
+      'https://iili.io/BQzMrN9.jpg'
+    ],
+    networking: [
+      'https://iili.io/BQzMPou.md.jpg',
+      'https://iili.io/BQzMNMG.md.jpg',
+      'https://iili.io/BQzMsPj.md.jpg'
+    ]
+  };
+
+  var TABS = ['all','conference','workshop','networking'];
+
   function switchTab(tab) {
-    var tabs = ['networking','conference','workshop','all'];
-    document.querySelectorAll('.cs-tab').forEach(function(t, i) {
-      t.classList.toggle('active', tabs[i] === tab);
+    TABS.forEach(function(t, i) {
+      document.querySelectorAll('.cs-tab')[i].classList.toggle('active', t === tab);
     });
     document.querySelectorAll('.cs-panel').forEach(function(p) { p.classList.remove('active'); });
     document.querySelectorAll('.cs-panel-all').forEach(function(p) { p.classList.remove('active'); });
@@ -322,28 +191,37 @@
   function buildLeftHTML(track) {
     var html = '';
     leftData.forEach(function(row) {
-      var keys = Object.keys(row);
+      var keys     = Object.keys(row);
       var rowTrack = (row[keys[0]] || '').trim();
       var eye      = (row[keys[1]] || '').trim();
       var desc     = (row[keys[2]] || '').trim();
       if (!trackMatch(rowTrack, track)) return;
       if (!eye && !desc) return;
       html += '<div class="cs-left-item">'
-            + (eye  ? '<div class="cs-left-eyebrow">'  + eye  + '</div>' : '')
+            + (eye  ? '<div class="cs-left-eyebrow">' + eye + '</div>' : '')
             + (desc ? '<div class="cs-left-desc">' + desc.replace(/\n/g,'<br>') + '</div>' : '')
             + '</div>';
     });
+    // Add images
+    var imgs = IMAGES[track] || [];
+    if (imgs.length) {
+      html += '<div class="cs-left-images">';
+      imgs.forEach(function(src) {
+        html += '<img src="' + src + '" alt="' + track + ' image" />';
+      });
+      html += '</div>';
+    }
     return html || '<div class="msg-light">No content found.</div>';
   }
 
   function buildAgendaRow(row) {
-    var keys   = Object.keys(row);
-    var timeS  = (row[keys[0]] || '').trim();
-    var timeE  = (row[keys[1]] || '').trim();
-    var eye    = (row[keys[3]] || '').trim();
-    var title  = (row[keys[4]] || '').trim();
-    var desc   = (row[keys[5]] || '').trim();
-    var spk    = (row[keys[6]] || '').trim();
+    var keys  = Object.keys(row);
+    var timeS = (row[keys[0]] || '').trim();
+    var timeE = (row[keys[1]] || '').trim();
+    var eye   = (row[keys[3]] || '').trim();
+    var title = (row[keys[4]] || '').trim();
+    var desc  = (row[keys[5]] || '').trim();
+    var spk   = (row[keys[6]] || '').trim();
     if (!timeS && !title) return '';
     return '<div class="agenda-row">'
          + '<div class="agenda-time">'
@@ -355,8 +233,7 @@
          + (title ? '<div class="agenda-title">'   + title + '</div>' : '')
          + (desc  ? '<div class="agenda-desc">'    + desc.replace(/\n/g,'<br>')  + '</div>' : '')
          + (spk   ? '<div class="agenda-speaker">' + spk.replace(/\n/g,'<br>')   + '</div>' : '')
-         + '</div>'
-         + '</div>';
+         + '</div></div>';
   }
 
   function buildRightHTML(track) {
@@ -364,25 +241,83 @@
     cyberData.forEach(function(row) {
       var keys   = Object.keys(row);
       var rowTrk = (row[keys[2]] || '').trim();
-      if (track !== 'all' && !trackMatch(rowTrk, track)) return;
+      if (!trackMatch(rowTrk, track)) return;
       html += buildAgendaRow(row);
     });
     return html || '<div class="msg">No sessions found.</div>';
   }
 
-  function buildAllHTML() {
-    var html = '';
-    cyberData.forEach(function(row) { html += buildAgendaRow(row); });
-    return html || '<div class="msg">No sessions found.</div>';
+  // Google Calendar grid for All Agenda
+  function buildCalendarGrid() {
+    var tracks = ['Conference', 'Workshop', 'Networking'];
+
+    // Group rows by time slot
+    var timeSlots = [];
+    var timeMap   = {};
+    cyberData.forEach(function(row) {
+      var keys  = Object.keys(row);
+      var timeS = (row[keys[0]] || '').trim();
+      var timeE = (row[keys[1]] || '').trim();
+      var trk   = (row[keys[2]] || '').trim();
+      var eye   = (row[keys[4]] || '').trim(); // Col E = eyebrow in calendar
+      var title = (row[keys[5]] || '').trim(); // Col F = description in calendar
+
+      if (!timeS) return;
+      var key = timeS + '||' + timeE;
+      if (!timeMap[key]) {
+        timeMap[key] = { timeS: timeS, timeE: timeE, cells: {} };
+        timeSlots.push(key);
+      }
+      // Normalize track
+      var tNorm = trk.charAt(0).toUpperCase() + trk.slice(1).toLowerCase();
+      if (!timeMap[key].cells[tNorm]) timeMap[key].cells[tNorm] = [];
+      if (eye || title) timeMap[key].cells[tNorm].push({ eye: eye, title: title });
+    });
+
+    var html = '<table class="cal-table">';
+    // Header
+    html += '<thead><tr><th>Time</th>';
+    tracks.forEach(function(t) { html += '<th>' + t + '</th>'; });
+    html += '</tr></thead><tbody>';
+
+    // Rows
+    timeSlots.forEach(function(key) {
+      var slot = timeMap[key];
+      html += '<tr class="cal-row">';
+      html += '<td class="cal-time-cell">' + slot.timeS;
+      if (slot.timeE) html += '<span class="cal-time-end">→ ' + slot.timeE + '</span>';
+      html += '</td>';
+      tracks.forEach(function(t) {
+        var cells = slot.cells[t] || [];
+        if (cells.length === 0) {
+          html += '<td class="cal-cell empty"></td>';
+        } else {
+          html += '<td class="cal-cell">';
+          cells.forEach(function(c) {
+            html += '<div class="cal-cell-inner">';
+            if (c.eye)   html += '<div class="cal-cell-eyebrow">' + c.eye   + '</div>';
+            if (c.title) html += '<div class="cal-cell-title">'   + c.title + '</div>';
+            html += '</div>';
+          });
+          html += '</td>';
+        }
+      });
+      html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    return html;
   }
 
   function renderAll() {
-    ['networking','conference','workshop'].forEach(function(track) {
+    // Split panels
+    ['conference','workshop','networking'].forEach(function(track) {
       var leftEl = document.getElementById('left-' + track);
       leftEl.innerHTML = '<span class="cs-left-heading">Session Overview</span>' + buildLeftHTML(track);
       document.getElementById('right-' + track).innerHTML = buildRightHTML(track);
     });
-    document.getElementById('right-all').innerHTML = buildAllHTML();
+    // Calendar grid
+    document.getElementById('cal-grid').innerHTML = buildCalendarGrid();
     sendHeight();
   }
 
@@ -402,7 +337,7 @@
     renderAll();
   }).catch(function(err) {
     console.error(err);
-    document.getElementById('right-networking').innerHTML = '<div class="msg" style="color:#ff5e62;">Failed to load. Please refresh.</div>';
+    document.getElementById('cal-grid').innerHTML = '<div class="msg" style="color:#ff5e62;">Failed to load. Please refresh.</div>';
   });
 </script>
 </body>
