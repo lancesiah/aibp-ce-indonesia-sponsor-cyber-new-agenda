@@ -59,12 +59,12 @@
   /* GOOGLE CALENDAR GRID */
   .cal-container { background: #0b1623; padding: 36px; overflow-x: auto; }
   .cal-table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
-  .cal-table th { background: rgba(255,255,255,0.05); color: #5b9bd5; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 16px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.08); }
-  .cal-table th:first-child { width: 90px; color: #3d7ab5; }
-  .cal-table tr { height: 80px; }
-  .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; line-height: 1.4; height: 80px; }
+  .cal-table th { background: rgba(255,255,255,0.05); color: #5b9bd5; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 16px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.08); }
+  .cal-table th:first-child { width: 80px; color: #3d7ab5; }
+  
+  .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; line-height: 1.4; }
   .cal-time-end { font-size: 10px; color: rgba(255,94,98,0.45); display: block; margin-top: 2px; }
-  .cal-cell { padding: 6px 8px; vertical-align: stretch; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.06); height: 80px; }
+  .cal-cell { padding: 6px 8px; vertical-align: stretch; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.06); }
   .cal-cell.empty { background: transparent; }
   .cal-cell-inner { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; border-left: 3px solid #8b1a1a; transition: background 0.2s; cursor: default; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
   .cal-cell-inner:hover { background: rgba(139,26,26,0.2); }
@@ -87,7 +87,7 @@
 
 <div class="header">
   <span class="header-eyebrow">Conference Programme</span>
-  <h1 class="header-title">Cyber Agenda Overview</h1>
+  <h1 class="header-title">Agenda Overview</h1>
 </div>
 
 <div class="tabs-wrapper">
@@ -127,19 +127,19 @@
 
   var IMAGES = {
     conference: [
-      'https://iili.io/BQzMOPf.jpg',
-      'https://iili.io/BQzMU9S.jpg',
-      'https://iili.io/BQzM4te.jpg'
+      'https://placehold.co/800x400/212b5a/ffffff?text=Main+Conference+1',
+      'https://placehold.co/800x400/212b5a/ffffff?text=Main+Conference+2',
+      'https://placehold.co/800x400/212b5a/ffffff?text=Main+Conference+3'
     ],
     workshop: [
-      'https://iili.io/BQzMrN9.jpg',
-      'https://iili.io/BQzMkF4.md.jpg',
-      'https://iili.io/BQzMvcl.jpg'
+      'https://placehold.co/800x400/8b1a1a/ffffff?text=Workshop+1',
+      'https://placehold.co/800x400/8b1a1a/ffffff?text=Workshop+2',
+      'https://placehold.co/800x400/8b1a1a/ffffff?text=Workshop+3'
     ],
     networking: [
-      'https://iili.io/BQzMPou.jpg',
-      'https://iili.io/BQzMNMG.jpg',
-      'https://iili.io/BQzMsPj.md.jpg'
+      'https://placehold.co/800x400/1a3a2e/ffffff?text=Networking+1',
+      'https://placehold.co/800x400/1a3a2e/ffffff?text=Networking+2',
+      'https://placehold.co/800x400/1a3a2e/ffffff?text=Networking+3'
     ]
   };
 
@@ -357,7 +357,7 @@
         }
 
         var span = getRowspan(session.minsS, session.minsE);
-        html += '<td class="cal-cell" rowspan="' + span + '">'
+        html += '<td class="cal-cell" rowspan="' + span + '" style="height:' + (span*56) + 'px;vertical-align:top;">'
               + '<div class="cal-cell-inner">'
               + (session.eye   ? '<div class="cal-cell-eyebrow">' + session.eye   + '</div>' : '')
               + (session.title ? '<div class="cal-cell-title">'   + session.title + '</div>' : '')
