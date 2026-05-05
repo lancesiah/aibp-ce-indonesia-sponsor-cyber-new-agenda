@@ -12,21 +12,17 @@
   .header-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #8b1a1a; }
   .header-title { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: #111; line-height: 1.1; }
 
-  /* TABS */
   .tabs-wrapper { display: flex; gap: 6px; background: #e2ddd7; border-radius: 50px; padding: 5px; width: fit-content; flex-wrap: wrap; }
   .cs-tab { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; border-radius: 50px; padding: 9px 22px; border: none; cursor: pointer; transition: all 0.25s ease; background: transparent; color: #666; white-space: nowrap; }
   .cs-tab:hover { color: #111; background: rgba(255,255,255,0.5); }
   .cs-tab.active { background: #fff; color: #8b1a1a; box-shadow: 0 2px 12px rgba(0,0,0,0.10); }
 
-  /* SPLIT PANELS */
   .cs-panel { display: none; }
   .cs-panel.active { display: grid; grid-template-columns: 1fr 1.4fr; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12); min-height: 500px; }
 
-  /* ALL AGENDA PANEL */
   .cs-panel-all { display: none; }
   .cs-panel-all.active { display: block; border-radius: 24px; overflow: hidden; box-shadow: 0 8px 48px rgba(0,0,0,0.12); }
 
-  /* LEFT SIDE */
   .cs-left { background: #fff; padding: 44px 40px; display: flex; flex-direction: column; gap: 0; overflow-y: auto; }
   .cs-left-heading { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #8b1a1a; margin-bottom: 28px; display: block; }
   .cs-left-item { padding: 20px 0; border-bottom: 1px solid #f0ede8; display: flex; flex-direction: column; gap: 8px; transition: padding-left 0.2s ease; cursor: default; }
@@ -36,7 +32,6 @@
   .cs-left-eyebrow::before { content: ''; display: inline-block; width: 18px; height: 2px; background: #8b1a1a; border-radius: 2px; flex-shrink: 0; }
   .cs-left-desc { font-size: 13.5px; color: #444; line-height: 1.75; }
 
-  /* SLIDESHOW */
   .slideshow { position: relative; width: 100%; height: 280px; border-radius: 14px; overflow: hidden; background: #e2ddd7; margin-top: 28px; flex-shrink: 0; }
   .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out; }
   .slide.active { opacity: 1; }
@@ -48,7 +43,6 @@
   .slide-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.4); border: none; cursor: pointer; padding: 0; transition: all 0.2s; }
   .slide-dot.active { background: #fff; width: 20px; border-radius: 4px; }
 
-  /* RIGHT SIDE */
   .cs-right { background: #0b1623; padding: 44px 36px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
   .cs-right-heading { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #3d7ab5; margin-bottom: 16px; display: block; }
   .agenda-row { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px 20px; display: grid; grid-template-columns: 80px 1fr; gap: 16px; align-items: start; transition: all 0.2s ease; cursor: default; }
@@ -64,17 +58,19 @@
 
   /* GOOGLE CALENDAR GRID */
   .cal-container { background: #0b1623; padding: 36px; overflow-x: auto; }
-  .cal-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+  .cal-table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
   .cal-table th { background: rgba(255,255,255,0.05); color: #5b9bd5; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 16px; text-align: left; border-bottom: 2px solid rgba(255,255,255,0.08); }
-  .cal-table th:first-child { width: 100px; color: #3d7ab5; }
-  .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); white-space: nowrap; line-height: 1.4; }
+  .cal-table th:first-child { width: 90px; color: #3d7ab5; }
+  .cal-table tr { height: 80px; }
+  .cal-time-cell { padding: 10px 16px; color: #ff5e62; font-size: 12px; font-weight: 700; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.06); white-space: nowrap; line-height: 1.4; height: 80px; }
   .cal-time-end { font-size: 10px; color: rgba(255,94,98,0.45); display: block; margin-top: 2px; }
-  .cal-cell { padding: 6px 8px; vertical-align: top; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.04); }
-  .cal-cell-inner { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 10px 12px; border-left: 3px solid #8b1a1a; transition: background 0.2s; cursor: default; }
+  .cal-cell { padding: 6px 8px; vertical-align: stretch; border-bottom: 1px solid rgba(255,255,255,0.04); border-left: 1px solid rgba(255,255,255,0.06); height: 80px; }
+  .cal-cell.empty { background: transparent; }
+  .cal-cell-inner { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; border-left: 3px solid #8b1a1a; transition: background 0.2s; cursor: default; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
   .cal-cell-inner:hover { background: rgba(139,26,26,0.2); }
   .cal-cell-eyebrow { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #5b9bd5; margin-bottom: 4px; }
   .cal-cell-title { font-size: 12px; font-weight: 600; color: #fff; line-height: 1.4; }
-  .cal-cell.empty { background: transparent; }
+  .cal-cell-time { font-size: 10px; color: rgba(255,94,98,0.6); margin-top: 6px; }
 
   .msg { padding: 40px; text-align: center; color: rgba(255,255,255,0.3); font-size: 13px; }
   .msg-light { padding: 40px; text-align: center; color: #bbb; font-size: 13px; }
@@ -101,76 +97,60 @@
   <button class="cs-tab"         onclick="switchTab('networking')">Networking</button>
 </div>
 
-<!-- All Agenda -->
 <div class="cs-panel-all active" id="panel-all">
   <div class="cal-container">
     <div id="cal-grid"><div class="msg">Loading...</div></div>
   </div>
 </div>
 
-<!-- Main Conference -->
 <div class="cs-panel" id="panel-conference">
-  <div class="cs-left" id="left-conference">
-    <span class="cs-left-heading">Session Overview</span>
-    <div class="msg-light">Loading...</div>
-  </div>
-  <div class="cs-right">
-    <span class="cs-right-heading">Schedule</span>
-    <div id="right-conference"><div class="msg">Loading...</div></div>
-  </div>
+  <div class="cs-left" id="left-conference"><span class="cs-left-heading">Session Overview</span><div class="msg-light">Loading...</div></div>
+  <div class="cs-right"><span class="cs-right-heading">Schedule</span><div id="right-conference"><div class="msg">Loading...</div></div></div>
 </div>
 
-<!-- Workshop -->
 <div class="cs-panel" id="panel-workshop">
-  <div class="cs-left" id="left-workshop">
-    <span class="cs-left-heading">Session Overview</span>
-    <div class="msg-light">Loading...</div>
-  </div>
-  <div class="cs-right">
-    <span class="cs-right-heading">Schedule</span>
-    <div id="right-workshop"><div class="msg">Loading...</div></div>
-  </div>
+  <div class="cs-left" id="left-workshop"><span class="cs-left-heading">Session Overview</span><div class="msg-light">Loading...</div></div>
+  <div class="cs-right"><span class="cs-right-heading">Schedule</span><div id="right-workshop"><div class="msg">Loading...</div></div></div>
 </div>
 
-<!-- Networking -->
 <div class="cs-panel" id="panel-networking">
-  <div class="cs-left" id="left-networking">
-    <span class="cs-left-heading">Session Overview</span>
-    <div class="msg-light">Loading...</div>
-  </div>
-  <div class="cs-right">
-    <span class="cs-right-heading">Schedule</span>
-    <div id="right-networking"><div class="msg">Loading...</div></div>
-  </div>
+  <div class="cs-left" id="left-networking"><span class="cs-left-heading">Session Overview</span><div class="msg-light">Loading...</div></div>
+  <div class="cs-right"><span class="cs-right-heading">Schedule</span><div id="right-networking"><div class="msg">Loading...</div></div></div>
 </div>
 
 <script>
-  var BASE_URL    = 'https://sheetdb.io/api/v1/aii6pr8cqy9d1';
+  var BASE_URL = 'https://script.google.com/macros/s/AKfycbyBk94qzfFPO8r5zF7hmE7lbCEJATockEIFPxu32rXz-qOx4JpvTtnK9KId0U1iM8be/exec';
   var LEFT_SHEET  = 'Left Panel';
   var CYBER_SHEET = 'CYBER Agenda';
   var leftData = [], cyberData = [], loaded = false;
   var slideshowTimers = {};
 
-  // Placeholder images — replace with your own URLs later
   var IMAGES = {
     conference: [
       'https://iili.io/BQzMOPf.jpg',
-      'https://iili.io/BQzMU9S.md.jpg',
+      'https://iili.io/BQzMU9S.jpg',
       'https://iili.io/BQzM4te.jpg'
     ],
     workshop: [
-      'https://iili.io/BQzMkF4.jpg',
-      'https://iili.io/BQzMvcl.jpg',
-      'https://iili.io/BQzMrN9.jpg'
+      'https://iili.io/BQzMrN9.jpg',
+      'https://iili.io/BQzMkF4.md.jpg',
+      'https://iili.io/BQzMvcl.jpg'
     ],
     networking: [
-      'https://iili.io/BQzMPou.md.jpg',
-      'https://iili.io/BQzMNMG.md.jpg',
+      'https://iili.io/BQzMPou.jpg',
+      'https://iili.io/BQzMNMG.jpg',
       'https://iili.io/BQzMsPj.md.jpg'
     ]
   };
 
   var TABS = ['all','conference','workshop','networking'];
+
+  // Convert "HH:MM" to minutes
+  function toMins(t) {
+    if (!t) return 0;
+    var parts = t.replace(/[^0-9:]/g,'').split(':');
+    return parseInt(parts[0]||0)*60 + parseInt(parts[1]||0);
+  }
 
   function switchTab(tab) {
     TABS.forEach(function(t, i) {
@@ -187,12 +167,9 @@
     sendHeight();
   }
 
-  // Slideshow logic
   function startSlideshow(track) {
     if (slideshowTimers[track]) clearInterval(slideshowTimers[track]);
-    slideshowTimers[track] = setInterval(function() {
-      advanceSlide(track, 1);
-    }, 3500);
+    slideshowTimers[track] = setInterval(function() { advanceSlide(track, 1); }, 3500);
   }
 
   function advanceSlide(track, dir) {
@@ -200,25 +177,20 @@
     if (!ss) return;
     var slides = ss.querySelectorAll('.slide');
     var dots   = ss.querySelectorAll('.slide-dot');
-    var cur    = 0;
+    var cur = 0;
     slides.forEach(function(s, i) { if (s.classList.contains('active')) cur = i; });
-    slides[cur].classList.remove('active');
-    dots[cur].classList.remove('active');
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
     var next = (cur + dir + slides.length) % slides.length;
-    slides[next].classList.add('active');
-    dots[next].classList.add('active');
+    slides[next].classList.add('active'); dots[next].classList.add('active');
   }
 
   function goToSlide(track, idx) {
     var ss = document.getElementById('slideshow-' + track);
     if (!ss) return;
-    var slides = ss.querySelectorAll('.slide');
-    var dots   = ss.querySelectorAll('.slide-dot');
-    slides.forEach(function(s) { s.classList.remove('active'); });
-    dots.forEach(function(d)   { d.classList.remove('active'); });
-    slides[idx].classList.add('active');
-    dots[idx].classList.add('active');
-    // Reset timer
+    ss.querySelectorAll('.slide').forEach(function(s) { s.classList.remove('active'); });
+    ss.querySelectorAll('.slide-dot').forEach(function(d) { d.classList.remove('active'); });
+    ss.querySelectorAll('.slide')[idx].classList.add('active');
+    ss.querySelectorAll('.slide-dot')[idx].classList.add('active');
     if (slideshowTimers[track]) clearInterval(slideshowTimers[track]);
     startSlideshow(track);
   }
@@ -227,10 +199,10 @@
     var imgs = IMAGES[track] || [];
     if (!imgs.length) return '';
     var slidesHtml = imgs.map(function(src, i) {
-      return '<img class="slide' + (i === 0 ? ' active' : '') + '" src="' + src + '" alt="" />';
+      return '<img class="slide' + (i===0?' active':'') + '" src="' + src + '" alt="" />';
     }).join('');
     var dotsHtml = imgs.map(function(_, i) {
-      return '<button class="slide-dot' + (i === 0 ? ' active' : '') + '" onclick="goToSlide(\'' + track + '\',' + i + ')"></button>';
+      return '<button class="slide-dot' + (i===0?' active':'') + '" onclick="goToSlide(\'' + track + '\',' + i + ')"></button>';
     }).join('');
     return '<div class="slideshow" id="slideshow-' + track + '">'
          + slidesHtml
@@ -251,14 +223,14 @@
   function buildLeftHTML(track) {
     var html = '';
     leftData.forEach(function(row) {
-      var keys     = Object.keys(row);
-      var rowTrack = (row[keys[0]] || '').trim();
-      var eye      = (row[keys[1]] || '').trim();
-      var desc     = (row[keys[2]] || '').trim();
+      var keys = Object.keys(row);
+      var rowTrack = (row[keys[0]]||'').trim();
+      var eye      = (row[keys[1]]||'').trim();
+      var desc     = (row[keys[2]]||'').trim();
       if (!trackMatch(rowTrack, track)) return;
       if (!eye && !desc) return;
       html += '<div class="cs-left-item">'
-            + (eye  ? '<div class="cs-left-eyebrow">' + eye  + '</div>' : '')
+            + (eye  ? '<div class="cs-left-eyebrow">' + eye + '</div>' : '')
             + (desc ? '<div class="cs-left-desc">' + desc.replace(/\n/g,'<br>') + '</div>' : '')
             + '</div>';
     });
@@ -268,23 +240,21 @@
 
   function buildAgendaRow(row) {
     var keys  = Object.keys(row);
-    var timeS = (row[keys[0]] || '').trim();
-    var timeE = (row[keys[1]] || '').trim();
-    var eye   = (row[keys[3]] || '').trim();
-    var title = (row[keys[4]] || '').trim();
-    var desc  = (row[keys[5]] || '').trim();
-    var spk   = (row[keys[6]] || '').trim();
+    var timeS = (row[keys[0]]||'').trim();
+    var timeE = (row[keys[1]]||'').trim();
+    var eye   = (row[keys[3]]||'').trim();
+    var title = (row[keys[4]]||'').trim();
+    var desc  = (row[keys[5]]||'').trim();
+    var spk   = (row[keys[6]]||'').trim();
     if (!timeS && !title) return '';
     return '<div class="agenda-row">'
-         + '<div class="agenda-time">'
-         + '<span class="agenda-time-start">' + timeS + '</span>'
-         + (timeE ? '<span class="agenda-time-end">' + timeE + '</span>' : '')
-         + '</div>'
+         + '<div class="agenda-time"><span class="agenda-time-start">' + timeS + '</span>'
+         + (timeE ? '<span class="agenda-time-end">' + timeE + '</span>' : '') + '</div>'
          + '<div class="agenda-body">'
          + (eye   ? '<div class="agenda-eyebrow">' + eye   + '</div>' : '')
          + (title ? '<div class="agenda-title">'   + title + '</div>' : '')
-         + (desc  ? '<div class="agenda-desc">'    + desc.replace(/\n/g,'<br>')  + '</div>' : '')
-         + (spk   ? '<div class="agenda-speaker">' + spk.replace(/\n/g,'<br>')   + '</div>' : '')
+         + (desc  ? '<div class="agenda-desc">'    + desc.replace(/\n/g,'<br>') + '</div>' : '')
+         + (spk   ? '<div class="agenda-speaker">' + spk.replace(/\n/g,'<br>') + '</div>' : '')
          + '</div></div>';
   }
 
@@ -292,7 +262,7 @@
     var html = '';
     cyberData.forEach(function(row) {
       var keys   = Object.keys(row);
-      var rowTrk = (row[keys[2]] || '').trim();
+      var rowTrk = (row[keys[2]]||'').trim();
       if (!trackMatch(rowTrk, track)) return;
       html += buildAgendaRow(row);
     });
@@ -300,45 +270,104 @@
   }
 
   function buildCalendarGrid() {
-    var tracks = ['Conference', 'Workshop', 'Networking'];
-    var timeSlots = [], timeMap = {};
+    var TRACKS = ['Conference', 'Workshop', 'Networking'];
+
+    // Step 1: collect all unique start times and build session map
+    var allTimes = [];
+    var timeSet  = {};
+    var sessions = []; // { timeS, timeE, minsS, minsE, track, eye, title }
+
     cyberData.forEach(function(row) {
       var keys  = Object.keys(row);
-      var timeS = (row[keys[0]] || '').trim();
-      var timeE = (row[keys[1]] || '').trim();
-      var trk   = (row[keys[2]] || '').trim();
-      var eye   = (row[keys[4]] || '').trim();
-      var title = (row[keys[5]] || '').trim();
+      var timeS = (row[keys[0]]||'').trim();
+      var timeE = (row[keys[1]]||'').trim();
+      var trk   = (row[keys[2]]||'').trim();
+      var eye   = (row[keys[4]]||'').trim();
+      var title = (row[keys[5]]||'').trim();
       if (!timeS) return;
-      var key = timeS + '||' + timeE;
-      if (!timeMap[key]) { timeMap[key] = { timeS: timeS, timeE: timeE, cells: {} }; timeSlots.push(key); }
+
+      if (!timeSet[timeS]) { timeSet[timeS] = true; allTimes.push(timeS); }
+
       var tNorm = trk.charAt(0).toUpperCase() + trk.slice(1).toLowerCase();
-      if (!timeMap[key].cells[tNorm]) timeMap[key].cells[tNorm] = [];
-      if (eye || title) timeMap[key].cells[tNorm].push({ eye: eye, title: title });
+      sessions.push({
+        timeS: timeS, timeE: timeE,
+        minsS: toMins(timeS), minsE: toMins(timeE),
+        track: tNorm, eye: eye, title: title
+      });
     });
 
+    // Sort times
+    allTimes.sort(function(a, b) { return toMins(a) - toMins(b); });
+
+    // Step 2: for each session, calculate rowspan
+    // rowspan = number of time slots this session covers
+    function getRowspan(minsS, minsE) {
+      if (!minsE || minsE <= minsS) return 1;
+      var count = 0;
+      for (var i = 0; i < allTimes.length; i++) {
+        var t = toMins(allTimes[i]);
+        if (t >= minsS && t < minsE) count++;
+      }
+      return Math.max(1, count);
+    }
+
+    // Step 3: Build a grid map
+    // For each track, track which rows are already "consumed" by a rowspan
+    var consumed = {}; // consumed[track][timeS] = true means this cell is spanned over
+    TRACKS.forEach(function(t) { consumed[t] = {}; });
+
+    // Map sessions by startTime + track
+    var sessionMap = {}; // sessionMap[timeS][track] = session
+    sessions.forEach(function(s) {
+      if (!sessionMap[s.timeS]) sessionMap[s.timeS] = {};
+      if (!sessionMap[s.timeS][s.track]) sessionMap[s.timeS][s.track] = s; // keep first if duplicates
+    });
+
+    // Pre-calculate which cells are consumed by spanning sessions
+    sessions.forEach(function(s) {
+      var span = getRowspan(s.minsS, s.minsE);
+      if (span > 1) {
+        for (var i = 0; i < allTimes.length; i++) {
+          var t = toMins(allTimes[i]);
+          if (t > s.minsS && t < s.minsE) {
+            consumed[s.track][allTimes[i]] = true;
+          }
+        }
+      }
+    });
+
+    // Step 4: Build HTML table
     var html = '<table class="cal-table"><thead><tr><th>Time</th>';
-    tracks.forEach(function(t) { html += '<th>' + t + '</th>'; });
+    TRACKS.forEach(function(t) { html += '<th>' + t + '</th>'; });
     html += '</tr></thead><tbody>';
-    timeSlots.forEach(function(key) {
-      var slot = timeMap[key];
-      html += '<tr class="cal-row"><td class="cal-time-cell">' + slot.timeS;
-      if (slot.timeE) html += '<span class="cal-time-end">→ ' + slot.timeE + '</span>';
-      html += '</td>';
-      tracks.forEach(function(t) {
-        var cells = slot.cells[t] || [];
-        if (!cells.length) { html += '<td class="cal-cell empty"></td>'; return; }
-        html += '<td class="cal-cell">';
-        cells.forEach(function(c) {
-          html += '<div class="cal-cell-inner">';
-          if (c.eye)   html += '<div class="cal-cell-eyebrow">' + c.eye   + '</div>';
-          if (c.title) html += '<div class="cal-cell-title">'   + c.title + '</div>';
-          html += '</div>';
-        });
-        html += '</td>';
+
+    allTimes.forEach(function(timeS) {
+      html += '<tr class="cal-row">';
+      // Time cell
+      html += '<td class="cal-time-cell">' + timeS + '</td>';
+
+      TRACKS.forEach(function(track) {
+        // Skip if this cell is consumed by a rowspan above
+        if (consumed[track][timeS]) return;
+
+        var session = sessionMap[timeS] && sessionMap[timeS][track];
+        if (!session) {
+          html += '<td class="cal-cell empty"></td>';
+          return;
+        }
+
+        var span = getRowspan(session.minsS, session.minsE);
+        html += '<td class="cal-cell" rowspan="' + span + '">'
+              + '<div class="cal-cell-inner">'
+              + (session.eye   ? '<div class="cal-cell-eyebrow">' + session.eye   + '</div>' : '')
+              + (session.title ? '<div class="cal-cell-title">'   + session.title + '</div>' : '')
+              + (session.timeE ? '<div class="cal-cell-time">'    + session.timeS + ' – ' + session.timeE + '</div>' : '')
+              + '</div></td>';
       });
+
       html += '</tr>';
     });
+
     html += '</tbody></table>';
     return html;
   }
@@ -350,7 +379,6 @@
       document.getElementById('right-' + track).innerHTML = buildRightHTML(track);
     });
     document.getElementById('cal-grid').innerHTML = buildCalendarGrid();
-    // Start slideshow for conference (default visible tab is All, so start on switch)
     sendHeight();
   }
 
